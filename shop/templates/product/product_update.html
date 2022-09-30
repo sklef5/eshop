@@ -1,0 +1,15 @@
+{% extends 'main/main.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Змінити данні
+{% endblock %}
+
+{% block container %}
+    <div class="forms">
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <p>Користувач - {{ user }}</p>
+            {{ form|crispy }}
+            <input class="btn btn-outline-primary" type="submit" value="Змінити">
+        </form>
+    </div>
+{% endblock %}

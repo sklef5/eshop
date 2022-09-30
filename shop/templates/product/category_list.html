@@ -1,0 +1,36 @@
+{%  extends 'main/main.html' %}
+{% block title %}Автоshop | Список категорій{% endblock %}
+
+{% block container %}
+<div class="container">
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url "homepage" %}">Головна</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Категорії</li>
+    </ol>
+</nav>
+    <h2 style="text-align: center">Категорії товарів</h2>
+    <div style="margin: 20px">
+        {% if user.is_staff %}
+            <a class="btn btn-outline-primary" href="{% url "category_add" %}">Додати категорію</a>
+        {% endif %}
+    </div>
+
+    <div class="row g-1 text-center">
+        {% for cat in categories %}
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <div class="card" style="width: 18rem; height: 23rem">
+                    {% for image in images %}{% if cat.pk == image.category.pk %}
+                        <img src="{{image.locate.url}}" class="card-img-top" alt="image" height="170px">{% endif %}{% endfor %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ cat.name }}</h5>
+                        <p class="card-text">{{ cat.description }}</p>
+                        <a href="{% url "product_list" slug=cat.slug%}" class="btn btn-primary mx">У категорію</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

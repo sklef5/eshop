@@ -1,0 +1,29 @@
+{% extends 'main/main.html' %}
+{% block title %}Кошик
+{% endblock %}
+{% block container %}
+<div  class="container">
+    <h1 style="text-align: center">Кошик</h1>
+    {% for num in bas_numb %}
+        <b>Замовлення №{{ num.pk }}</b>
+        <div class="rows">
+            <div class="col-md-10">
+                {% for id in form %}
+                {% if num.pk == id.basket_id %}
+                    <div class="row">
+                        <div class="col-sm-7">{{ id.product }}</div>
+                        <div class="col-sm-3">{{ id.product.price }} {{ id.product.currency }}</div>
+                        <div class="col-sm-2">{{ id.quantity }}шт.</div>
+                    </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col-md-2">
+            <a class="btn btn-outline-primary" href="{% url 'order_add' pk=num.pk%}">Придбати</a>
+            </div>
+        </div>
+    {% endfor %}
+    <p style="text-align: center;">Всього товарів у замовленнях -{{ counter }}од.<br>
+    Загальна вартість замовлень -{{ total }}грн.</p>
+</div>
+{% endblock %}

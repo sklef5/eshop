@@ -1,0 +1,43 @@
+{%  extends 'main/main.html' %}
+{% block title %}Автоshop | {{ product.name }}
+{% endblock %}
+{% block container %}
+<div class="container">
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url "homepage" %}">Головна</a></li>
+        <li class="breadcrumb-item"><a href="{% url "category_list" %}">Категорії</a></li>
+        <li class="breadcrumb-item"><a href="{% url "product_list" slug=product.category.slug %}">{{ product.category }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+    </ol>
+</nav>
+<h2 style="text-align: center"> {{ product.name }}</h2>
+<div class="card mx-auto" style="max-width: 840px;">
+    <div class="row g-0">
+        <div class="col-md-6">
+        {% for image in images %}
+            <img src="{{ image.locate.url }}" class="img-fluid rounded-start" alt="image" >
+        {% endfor %}
+        </div>
+        <div class="col-md-6">
+            <div class="card-body">
+                <h5 class="card-title"> {{ product.name }} </h5>
+                <p class="card-subtitle">Виробник  -{{ product.manufacturer }}</p>
+                <p class="card-text">{{ product.description }}</p>
+                <p class="card-subtitle">Вартість -{{ product.price }} {{ object.currency}}</p>
+                <p class="card-subtitle">Наявність - {{ product.availability }}</p>
+
+                {% if user.is_authenticated and product.availability > 0%}
+                    <a class="btn btn-outline-success" href="{% url 'basket_add' pk=product.pk%}">В корзину</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% if user.is_staff %}
+                    <p><a class="btn btn-outline-primary" href="{% url 'product_update' pk=product.pk%}">Змінити</a>
+                    <a class="btn btn-outline-primary" href="{% url 'addprodimage' pk=product.pk%}">Додати фото</a>
+                    <a class="btn btn-outline-danger" href="{% url 'product_del' pk=product.pk%}">Видалити</a></p>
+                {% endif %}
+</div>
+</div>
+{% endblock %}

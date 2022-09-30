@@ -1,0 +1,13 @@
+{% extends 'main/main.html' %}
+{% block title %}Видалити позицію
+{% endblock %}
+
+{% block container %}
+    <form  method="post">
+    {% csrf_token %}
+        <p>Ви впевнені, що хочете видалити позицію - {{ object }} ?</p>
+    <a href="{% url 'product_detail' slug=object.slug%}">Повернутися</a>
+    <input type="submit" value="Видалити">
+    </form>
+
+{% endblock %}

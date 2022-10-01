@@ -21,9 +21,9 @@ def cart_add(request, pk):
     client = request.user.id
     cash = UserModel.objects.get(id=client)
     if product.price < cash.cash:
-        cart = CartModel.objects.get_or_create(cart=cart_id(request), client_id=client)
+        cart = CartModel.objects.get_or_create(client_id=client, cart=cart_id(request), defaults=None)
         try:
-            cart_item = CartItemModel.objects.get(product_id=product, cart=cart)
+            cart_item = CartItemModel.objects.get(product_id=product, cart_id=cart[0].id)
             if cart_item.quantity < cart_item.product.availability:
                 cart_item.quantity += 1
             cart_item.save()
@@ -31,7 +31,7 @@ def cart_add(request, pk):
             cart_item = CartItemModel.objects.create(
                         product=product,
                         quantity=1,
-                        basket=cart,
+                        cart_id=cart[0].id,
                 )
             cart_item.save()
         product.availability -= 1
@@ -45,7 +45,7 @@ def cart_add(request, pk):
 def cart_view(request: HttpRequest, total=0, counter= 0) -> HttpResponse:
     client = request.user.id
     bas_numb = CartModel.objects.filter(client_id=client)
-    cartitems = CartItemModel.objects.filter(basket_id__client_id=client, active=True)
+    cartitems = CartItemModel.objects.filter(cart_id__client_id=client, active=True)
     for cartitem in cartitems:
         total += (cartitem.product.price * cartitem.quantity)
         counter += cartitem.quantity
@@ -93,7 +93,6 @@ def allorderlistview(request: HttpRequest) -> HttpResponse:
     return render(request, 'cart/order_list.html', dict(order=order, item=item))
 
 #повернення замовлення
-@staff_user
 def orderretunview(request: HttpRequest, id) -> HttpResponse:
     try:
         orderreturn = OrderReturnModel.objects.get(order_id=id)
@@ -118,7 +117,7 @@ class OrderReturnList(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return OrderReturnModel.objects.all()
 
-
+@staff_user
 def orderstatusview(request:HttpRequest, pk) -> HttpResponse:
     order = OrderModel.objects.get(id=pk)
     orderitem =OrderItemModel.objects.filter(order_id=pk)
@@ -133,7 +132,7 @@ def orderstatusagree(request: HttpRequest, pk) -> HttpResponse:
     user = UserModel.objects.get(id=order.user.id)
     for item in orderitem:
         user.cash += item.price * item.quantity
-        product = Product.objects.get(id=item.product.pk)
+        product = ProductModel.objects.get(id=item.product.pk)
         product.availability += item.quantity
         item.quantity = 0
         item.price = 0

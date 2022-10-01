@@ -4,21 +4,21 @@ from product.models import ProductModel
 
 
 class CartModel(models.Model):
-    basket = models.CharField(max_length=250, blank=True)
+    cart = models.CharField(max_length=250, blank=True)
     date_added = models.DateField(auto_now_add=True)
     client = models.ForeignKey(UserModel, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = 'BasketModel'
+        db_table = 'CartModel'
         ordering = ['date_added']
 
     def __str__(self):
-        return self.basket
+        return self.cart
 
 
 class CartItemModel(models.Model):
     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, verbose_name='Товар')
-    basket = models.ForeignKey(CartModel, on_delete=models.CASCADE, verbose_name='Кошик')
+    cart = models.ForeignKey(CartModel, on_delete=models.CASCADE, verbose_name='Кошик')
     quantity = models.IntegerField(verbose_name='Кількість')
     active = models.BooleanField(default=True, verbose_name='Активна')
 

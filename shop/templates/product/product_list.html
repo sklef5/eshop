@@ -27,8 +27,8 @@
                     <div class="card-body">
                         <h5 class="card-title">{{product.name }}</h5>
                         <p class="card-text">Виробник - {{product.manufacturer}}</p>
-                        {% if product.availability > 0 %}<a class="btn btn-primary mx" href="{% url 'product_detail' pk=product.pk%}">Деталі</a>{% else %}
-                        <p style="color: red">Нема на складі</p>{% endif %}
+                        {% if product.availability < 1 %}<p style="color: red">Нема на складі</p>{% endif %}
+                        <a class="btn btn-primary mx" href="{% url 'product_detail' pk=product.pk%}">Деталі</a>
                     </div>
                  </div>
             </div>

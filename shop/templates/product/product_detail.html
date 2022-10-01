@@ -28,7 +28,7 @@
                 <p class="card-subtitle">Наявність - {{ product.availability }}</p>
 
                 {% if user.is_authenticated and product.availability > 0%}
-                    <a class="btn btn-outline-success" href="{% url 'basket_add' pk=product.pk%}">В корзину</a>
+                    <a class="btn btn-outline-success" href="{% url 'cart_add' pk=product.pk%}">В корзину</a>
                 {% endif %}
             </div>
         </div>

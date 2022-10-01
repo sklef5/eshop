@@ -64,7 +64,7 @@ class ProductModel(models.Model):
     description = models.TextField(null=True, blank=True, verbose_name='Опис товару')  # data
     price = models.FloatField(null=True, verbose_name='Ціна')
     availability = models.PositiveIntegerField(null=True, default=0, verbose_name='Наявність')
-    category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, related_name='products', verbose_name='Категорія')
+    category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, related_name='categories', verbose_name='Категорія')
     currency = models.CharField(max_length=4, default="UAH", verbose_name='Валюта')  # str
 
     class Meta:
@@ -84,7 +84,7 @@ class ProductModel(models.Model):
 class ProductImagesModel(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name="Фото")
     created_at = models.DateField(auto_now_add=True)
-    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='products', verbose_name='Товар')
+    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='prodimg', verbose_name='Товар')
     locate = models.ImageField(upload_to='images/product/')
 
     class Meta:
@@ -97,7 +97,7 @@ class ProductImagesModel(models.Model):
 class CategoryImagesModel(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name="Фото")
     created_at = models.DateField(auto_now_add=True)
-    category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, related_name='categories', verbose_name='Категорія')
+    category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, related_name='catimg', verbose_name='Категорія')
     locate = models.ImageField(upload_to='images/category/')
 
     class Meta:

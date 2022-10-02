@@ -4,8 +4,8 @@ from cart.serializer import CartSerializer, OrderSerializer
 from user.models import UserModel
 
 class UserSerializer(serializers.ModelSerializer):
-    clients = CartSerializer(many=True)
-    users = OrderSerializer(many=True)
+    clients = CartSerializer(many=True, read_only=True)
+    users = OrderSerializer(many=True, read_only=True)
     class Meta:
         fields = ['clients', 'users', 'password',  'username', 'slug',  'age', 'cash', 'first_name', 'last_name', 'email' ]
         extra_kwargs = {'password': {'write_only': True}}

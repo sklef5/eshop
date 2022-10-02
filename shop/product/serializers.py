@@ -30,9 +30,9 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.Serializer):
-    products = CartItemSerializer(many=True)
-    productsord = OrderItemSerializer(many=True)
-    prodimg = ProductImageSerializer(many=True)
+    products = CartItemSerializer(many=True, read_only=True)
+    productsord = OrderItemSerializer(many=True, read_only=True)
+    prodimg = ProductImageSerializer(many=True, read_only=True)
     class Meta:
         model = ProductModel
         fields = ['name', 'productimg', 'products', 'productsord', 'slug', 'manufacturer', 'created_at', 'update_at', 'description', 'price', 'availability', 'currency', ]
@@ -55,11 +55,11 @@ class ProductSerializer(serializers.Serializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    categories = ProductSerializer(many=True)
-    catimg = CategoryImageSerializer(many=True)
+    categories = ProductSerializer(many=True, read_only=True)
+    catimg = CategoryImageSerializer(many=True, read_only=True)
     class Meta:
         model = CategoryModel
-        fields = ['name', 'slug', 'class_category', 'created_at', 'update_at', 'description', 'categories']
+        fields = ['name', 'slug', 'class_category', 'created_at', 'update_at', 'description', 'categories', 'catimg']
 
     def create(self, validated_data):
         return CategoryModel.objects.create(**validated_data)

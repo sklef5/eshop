@@ -16,7 +16,7 @@ class CartItemSerializer(serializers.ModelSerializer):
 
 
 class CartSerializer(serializers.ModelSerializer):
-    carts = CartItemSerializer(many=True)
+    carts = CartItemSerializer(many=True, read_only=True)
     class Meta:
         model = CartModel
         fields = ['cart', 'date_added', 'carts']
@@ -56,8 +56,8 @@ class OrderReturnSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    orders = OrderItemSerializer(many=True)
-    ordersret = OrderReturnSerializer(many=True)
+    orders = OrderItemSerializer(many=True, read_only=True)
+    ordersret = OrderReturnSerializer(many=True, read_only=True)
     class Meta:
         model = OrderModel
         fields = ['date_added', 'status', 'orders']
@@ -68,4 +68,3 @@ class OrderSerializer(serializers.ModelSerializer):
     def update(self, instance:OrderModel, validated_data):
         instance.status = validated_data['status']
         instance.date_added = validated_data.get("date_added", "")
-

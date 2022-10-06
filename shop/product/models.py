@@ -22,8 +22,8 @@ class CategoryModel(models.Model):
     name = models.CharField(max_length=38, unique=True, verbose_name="Категорія")  # str
     slug = models.SlugField(max_length=38, editable=False)
     class_category = models.IntegerField(null=False, verbose_name='Клас')  # str
-    created_at = models.DateField(auto_now_add=True)  # date
-    update_at = models.DateField(auto_now=True)  # date
+    created_at = models.DateField(auto_now_add=True, null=True)  # date
+    update_at = models.DateField(auto_now=True, null=True)  # date
     description = models.TextField(null=True, blank=True, verbose_name='Опис')  # data
 
     class Meta:
@@ -80,6 +80,7 @@ class ProductModel(models.Model):
 
     def get_absolute_url(self):
         return reverse('product_detail', kwargs={'pk':self.pk})
+
 
 class ProductImagesModel(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name="Фото")

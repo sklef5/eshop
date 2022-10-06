@@ -9,7 +9,7 @@ class CartModel(models.Model):
     client = models.ForeignKey(UserModel, related_name= 'clients', on_delete=models.CASCADE)
 
     class Meta:
-        db_table = 'CartModel'
+        db_table = 'Cart'
         ordering = ['date_added']
 
     def __str__(self):
@@ -24,7 +24,7 @@ class CartItemModel(models.Model):
 
 
     class Meta:
-        db_table = 'CartItemModel'
+        db_table = 'CartItem'
     #
     # def sub_total(self):
     #     return self.product.price * self.quantity
@@ -54,7 +54,7 @@ class OrderModel(models.Model):
     )
 
     class Meta:
-        db_table = 'OrderModel'
+        db_table = 'Order'
 
     def __str__(self):
         return self.user
@@ -67,7 +67,7 @@ class OrderItemModel(models.Model):
     quantity = models.PositiveIntegerField(null=False, verbose_name='Кількість')
 
     class Meta:
-        db_table = 'OrderItemModel'
+        db_table = 'OrderItem'
 
     def __str__(self):
         return self.product
@@ -79,7 +79,7 @@ class OrderReturnModel(models.Model):
 
 
     class Meta:
-        db_table = 'OrderReturnModel'
+        db_table = 'OrderReturn'
 
     def __str__(self):
         return self.order

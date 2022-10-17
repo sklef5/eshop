@@ -1,0 +1,18 @@
+{% extends 'main/main.html' %}
+{% block title %}Змінити данні
+{% endblock %}
+
+{% block container %}
+    <div class="container">
+    Замовлення <b>№{{ number.pk }}</b>, клієнт - {{ number.user }}
+        {% for obj in form %}
+        <div class="rows">
+            <div class="col-sm-6">{{ obj.product }}</div>
+            <div class="col-sm-3">{{ obj.price}}</div>
+            <div class="col-sm-3">{{ obj.quantity }}</div>
+        </div>
+        {% endfor %}
+    <a  class="btn btn-outline-primary" href="{% url 'return_agreed' pk=number.pk%}">Повернути</a>
+    <a  class="btn btn-outline-primary" href="{% url 'return_refusal' pk=number.pk%}">Відмовити</a>
+</div>
+{% endblock %}

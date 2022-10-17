@@ -1,0 +1,20 @@
+{% extends 'main/main.html' %}
+{% block title %}Профіль  клієнта
+{% endblock %}
+{% block container %}
+<h2 style="text-align: center">Профіль</h2>
+<div style="text-align: center">
+    <div class="container">
+        <div class="rows">
+            <div class="col-sm-1">Користувач<br>{{ user.username }}</div>
+            <div class="col-sm-2">Прізвище <br> {{ user.last_name }}</div>
+            <div class="col-sm-2">Ім'я  <br> {{ user.first_name }}</div>
+            <div class="col-sm-1">Вік <br>{{ user.age }}</div>
+            <div class="col-sm-1">E-mail   <br> {{ user.email }}</div>
+            <div class="col-sm-1">Гаманець <br>{{ user.cash }}</div>
+            <div class="col-sm-2"><a class="btn btn-outline-primary" href="{% url "update_log" slug=user.slug %}">Змінити логін</a></div>
+            <div class="col-sm-2"><a class="btn btn-outline-primary" href="{% url 'update'  slug=user.slug %}">Змінити ім'я</a></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

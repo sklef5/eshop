@@ -1,0 +1,27 @@
+{% extends 'main/main.html' %}
+{% block title %}Замовлення
+{% endblock %}
+
+{% block container %}
+<p>Дякуємо за Ваше замовлення</p>
+<table border="2", width="50%">
+    <thead>
+        <tr>
+            <th width="15%">Замовлення</th>
+            <th width="45%">Товар</th>
+            <th width="12%">Кількість</th>
+            <th width="12%">Ціна</th>
+            <th width="12%">Статус</th>
+        </tr>
+    </thead>
+    {% for ord in form %}
+        <tr>
+            <td>{{ ord.ord_id }}</td>
+            <td>{{ ord.product }}</td>
+            <td>{{ ord.quantity }}</td>
+            <td>{{ ord.price }}</td>
+            <td>{{ ord.status }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

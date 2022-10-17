@@ -1,0 +1,31 @@
+{% extends 'main/main.html' %}
+{% block title %}Ваші замовлення
+{% endblock %}
+
+{% block container %}
+<h2 style="text-align: center">Ваші замовлення</h2>
+<div class="container">
+{% for number in order %}
+    <div>
+        <div class="rows">
+            <div class="col-sm-2"> {{ number.user }}<br>Замовлення- <b> {{ number.pk}}</b></div>
+            <div class="col-sm-6">
+                <div class="row">
+                    {% for ord in item %}
+                    {% if ord.order_id == number.pk %}
+                        <div class="col-sm-7">{{ ord.product}}</div>
+                        <div class="col-sm-2">{{ ord.quantity }} шт.</div>
+                        <div class="col-sm-3">{{ ord.price }} грн.</div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-sm-2">{{ number.status }}</div>
+        {% if number.status == 'нове' %}
+            <div class="col-sm-2"><a class="btn btn-outline-primary" href={% url 'orderreturn' id=number.pk %}>Повернути</a></div>
+        {% endif %}
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

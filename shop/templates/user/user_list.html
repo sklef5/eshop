@@ -1,0 +1,40 @@
+{% extends 'main/main.html' %}
+{% block title %}Профіль  клієнта
+{% endblock %}
+{% block container %}
+    <h2 style="text-align: center">Користувачі</h2>
+<div class="container">
+    <div class="row">
+    {% for user in object_list %}
+        <div class="col-sm-6">
+            <p style="text-align: center"><b>{{ user.username }}</b></p>
+            <div class="rows">
+                <ol class="col-sm-4">
+                    <li>E-mail</li>
+                    <li> Рік</li>
+                    <li> Им'я</li>
+                    <li> Прізвище</li>
+                    <li>Активний</li>
+                    <li> Суперюзер</li>
+                    <li>Staff</li>
+                    <li>Гаманець</li>
+                </ol>
+                <ul class="col-sm-4">
+                    <li>{{ user.email }}</li>
+                    <li>{{ user.age }}</li>
+                    <li>{{ user.first_name }}</li>
+                    <li>{{ user.last_name }}</li>
+                    <li>{{ user.is_active }}</li>
+                    <li>{{ user.is_superuser }}</li>
+                    <li>{{ user.is_staff }}</li>
+                    <li>{{ user.cash }}</li>
+                </ul>
+                <div class="col-sm-4">
+            <a class="btn btn-outline-primary" href="{% url 'update_user_prof'  slug=user.slug %}">Змінити</a>
+            </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

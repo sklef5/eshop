@@ -1,0 +1,17 @@
+{% extends 'main/main.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Вхід
+{% endblock %}
+
+{% block container %}
+    <div class="forms">
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" class="btn btn-outline-warning" value="Увійти">
+            або
+            <a class="btn btn-outline-warning" href="{% url 'signup' %}">Зареєструватися</a>
+        </form>
+    </div>
+{% endblock %}

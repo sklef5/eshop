@@ -1,0 +1,20 @@
+{% extends 'main/main.html' %}
+{% block title %}Ваші замовлення
+{% endblock %}
+
+{% block container %}
+    <h2 style="text-align: center">Повернення</h2>
+<div class="container">
+    {% for obj in object_list %}
+        <div class="rows">
+            <div class="col-sm-3">{{ obj.date_added}}</div>
+            <div class="col-sm-2">{{ obj.pk}}</div>
+             <div class="col-sm-2">{{ obj.order.user}}</div>
+            <div class="col-sm-3">{{ obj.order.status}}</div>
+            {% if  obj.order.status == 'у обробці'%}
+            <div class="col-sm-2"><a  class="btn btn-outline-primary" href="{% url 'order_status' pk=obj.order.pk%}">До заказу</a></div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

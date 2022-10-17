@@ -1,0 +1,69 @@
+{%  extends 'main/main.html' %}
+{% block title %}Автоshop | Список товарів{% endblock %}
+
+{% block container %}
+<div class="container">
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url "homepage" %}">Головна</a></li>
+        <li class="breadcrumb-item"><a href="{% url "category_list" %}">Категорії</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ category.name }}</li>
+    </ol>
+</nav>
+<h2 style="text-align: center">{{ category.name }} | Запчастини</h2>
+    <div style="margin: 20px">
+        {% if user.is_staff %}
+        <a class="btn btn-outline-primary" href="{% url "addcatimage" pk=category.pk%}">Додати фото</a>
+        <a class="btn btn-outline-primary" href="{% url "product_add" %}">Додати товар</a>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        {% for product in products %}
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                 <div class="card" style="height: 20rem">
+                    {% for image in images %}{% if product.pk == image.product.pk %}
+                        <img src="{{image.locate.url}}" class="card-img-top" alt="image" height="170px">{% endif %}{% endfor %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{product.name }}</h5>
+                        <p class="card-text">Виробник - {{product.manufacturer}}</p>
+                        {% if product.availability < 1 %}<p style="color: red">Нема на складі</p>{% endif %}
+                        <a class="btn btn-primary mx" href="{% url 'product_detail' pk=product.pk%}">Деталі</a>
+                    </div>
+                 </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if is_paginated %}
+    <nav>
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="?page=1">Перша</a></li>
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a  class="page-link"  aria-label="Previous" href="?page={{ page_obj.previous_page_number }}">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Попередня</span></a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link"  >Попередня</a></li>
+            {% endif %}
+
+            {% for page_number in page_obj.paginator.page_range %}
+                {% if page_number == page_obj.number%}
+                    <li class="page-item active"><a class="page-link"  href="?page={{ page_number }}">{{ page_number }}<span class="sr-only">(current)</span></a> </li>
+                {% elif page_number > page_obj.number|add:'-3' and page_number < page_obj.number|add:'3' %}
+                         <li class="page-item"><a  class="page-link" href="?page={{ page_number }}">{{ page_number }}</a> </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                 <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Наступна</a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link">Наступна</a></li>
+            {% endif %}
+
+             <li class="page-item"><a class="page-link" href="?page={{page_obj.paginator.num_pages}}">Остання</a></li>
+        </ul>
+    </nav>
+{% endif %}
+{% endblock %}

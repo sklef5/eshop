@@ -1,0 +1,51 @@
+.header{
+
+    font-size: 15px;
+    display: inline-flex;
+    width: 100%;
+    min-height: 110px;
+}
+.logo {
+        color: #6262df;
+        width: 90%
+
+}
+.proda_block{
+    padding: 20px;
+    display: inline-flex;
+    width: 100%;
+}
+.proda {
+    width: 25%;
+    align-items: center;
+    display: grid;
+    margin-left: auto;
+}
+.nav {
+    border-width:1px;
+    border-color: rgb(190,190,190);
+}
+
+.profi {
+    border-style: solid;
+    border-color: #6262df;
+}
+.buton{
+    width: 120px;
+    margin: 3px;
+    background-color: powderblue;
+}
+.forms{
+    width: 350px;
+    margin: auto;
+}
+.rows {
+    border-width:1px;
+    border-color: rgb(190,190,190);
+    border-style: solid;
+    display: flex;
+    margin: 15px 0px;
+    padding: 10px;
+    border-radius: 15px;
+}
+

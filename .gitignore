@@ -7,9 +7,7 @@ venv
 db.sqlite3
 media
 *initial.py
-static/
-search/
-migrations/
+
 
 
 

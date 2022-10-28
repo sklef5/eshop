@@ -3,7 +3,7 @@ from django.urls import path
 from shop.views import staff_user
 from cart.views import cart_add, cart_view, orderitemview, orderlistview, allorderlistview, error, orderretunview, \
     orderstatusview, orderstatusagree, orderstatusrefus
-from cart import views
+from cart import views, apiview
 
 urlpatterns = [
     path('cart/', cart_view , name='cart_view'),
@@ -18,10 +18,13 @@ urlpatterns = [
     path('returnrefus/<int:pk>/', orderstatusrefus, name='return_refusal'),
     path('error/', error, name='error'),
 
-
-
-
-
-
+    path('api/cart/', apiview.CartListApiView.as_view(), name='api_cart'),
+    path('api/cart/<int:pk>/', apiview.CartRUDApiView.as_view(), name='api_cart'),
+    path('api/cartitem/', apiview.CartItemListApiView.as_view(), name='api_cartitem'),
+    path('api/cartitem/<int:pk>/', apiview.CartItemRUDApiView.as_view(), name='api_cartitempk'),
+    path('api/order/', apiview.OrderListApiView.as_view(), name='api_order'),
+    path('api/order/<int:pk>', apiview.OrderItemRUDApiView.as_view(), name='api_orderpk'),
+    path('api/orderitem/', apiview.OrdertItemListApiView.as_view(), name='api_orderitem'),
+    path('api/orderitem/<int:pk>/', apiview.OrderItemRUDApiView.as_view(), name='api_orderitempk'),
 
        ]

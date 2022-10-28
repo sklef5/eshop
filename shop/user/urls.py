@@ -4,6 +4,7 @@ from django.conf import settings
 from shop.views import staff_user
 from user import views
 from user.views import createuser
+from user import apiview
 
 urlpatterns = [
     path('profile/<int:pk>/', views.UserDetaelView.as_view(),  name='profile_detail'),
@@ -13,5 +14,8 @@ urlpatterns = [
     path('field/<slug:slug>/', views.UserFieldUpdateView.as_view(), name="update"),
     path('login/<slug:slug>/', views.UserLogUpdateView.as_view(), name="update_log"),
     path('user/all/', staff_user(views.UserlListView.as_view()), name='user_list'),
-    path('user/<slug:slug>/', staff_user(views.UserUpdateView.as_view()), name='update_user_prof')
+    path('user/<slug:slug>/', staff_user(views.UserUpdateView.as_view()), name='update_user_prof'),
+
+    path('api/user/', apiview.UserListApiView.as_view(), name='api_user'),
+    path('api/user/<int:pk>/', apiview.UserRUDApiView.as_view(), name='api_userpk'),
     ]

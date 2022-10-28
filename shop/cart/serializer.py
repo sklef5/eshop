@@ -5,34 +5,40 @@ from cart.models import CartModel, CartItemModel, OrderModel, OrderItemModel, Or
 class CartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItemModel
-        fields = ['quantity', 'active']
+        fields = ['product', 'cart', 'quantity', 'active']
 
     def create(self, validated_data):
         return CartItemModel.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.quantity = validated_data.get("quantity", "")
-        instance.active = validated_data.get("active", "")
+        instance.product=validated_data['product']
+        instance.cart=validated_data['cart']
+        instance.quantity=validated_data['quantity']
+        instance.active=validated_data['active']
+        instance.save()
+        return instance
 
 
 class CartSerializer(serializers.ModelSerializer):
-    carts = CartItemSerializer(many=True, read_only=True)
     class Meta:
         model = CartModel
-        fields = ['cart', 'date_added', 'carts']
+        fields = ['cart', 'date_added', 'client']
 
     def create(self, validated_data):
         return CartModel.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         instance.cart = validated_data['cart']
-        instance.date_added = validated_data.get("created_at", "")
+        instance.client=validated_data['client']
+        instance.date_added = validated_data.get("date_added", "")
+        instance.save()
+        return instance
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItemModel
-        fields = ['price', 'quantity']
+        fields = ['order', 'price', 'quantity', 'product']
 
     def create(self, validated_data):
         return OrderItemModel.objects.create(**validated_data)
@@ -40,6 +46,10 @@ class OrderItemSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         instance.price = validated_data['price']
         instance.quantity = validated_data['quantity']
+        instance.order=validated_data['order']
+        instance.product=validated_data['product']
+        instance.save()
+        return instance
 
 
 class OrderReturnSerializer(serializers.ModelSerializer):
@@ -53,14 +63,14 @@ class OrderReturnSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         instance.date_added = validated_data['date_added']
         instance.date_up = validated_data.get("date_up", "")
+        instance.save()
+        return instance
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    orders = OrderItemSerializer(many=True, read_only=True)
-    ordersret = OrderReturnSerializer(many=True, read_only=True)
     class Meta:
         model = OrderModel
-        fields = ['date_added', 'status', 'orders']
+        fields = ['date_added', 'status', 'orders', 'user']
 
     def create(self, validated_data):
         return OrderModel.objects.create(**validated_data)
@@ -68,3 +78,7 @@ class OrderSerializer(serializers.ModelSerializer):
     def update(self, instance:OrderModel, validated_data):
         instance.status = validated_data['status']
         instance.date_added = validated_data.get("date_added", "")
+        instance.user=validated_data['user']
+        instance.status=validated_data['status']
+        instance.save()
+        return instance

@@ -4,9 +4,12 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
+
+from product.serializers import CategorySerializer
 from shop.views import staff_user
 from product.forms import CreateCatForm, AddCatImageForm, AddProdImageForm
 from product.models import ProductModel, CategoryModel, ProductImagesModel, CategoryImagesModel
+from rest_framework.generics import ListCreateAPIView
 
 
 #створення категорій та переляд
@@ -94,3 +97,8 @@ def productdetailview(request:HttpRequest, pk) -> HttpResponse:
         return render(request, 'product/product_detail.html', dict(product=product, images=images))
     except ProductModel.DoesNotExist:
         return render(request, 'main/message_list.html', {'form': 'Товару не існує'})
+
+
+class CategoryListApiView(ListCreateAPIView):
+    serializer_class = CategorySerializer
+    queryset = CategoryModel.objects.all()

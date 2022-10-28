@@ -6,7 +6,7 @@ from product.models import ProductModel
 class CartModel(models.Model):
     cart = models.CharField(max_length=250, blank=True)
     date_added = models.DateField(auto_now_add=True)
-    client = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    client = models.ForeignKey(UserModel, related_name= 'clients', on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'CartModel'
@@ -17,8 +17,8 @@ class CartModel(models.Model):
 
 
 class CartItemModel(models.Model):
-    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, verbose_name='Товар')
-    cart = models.ForeignKey(CartModel, on_delete=models.CASCADE, verbose_name='Кошик')
+    product = models.ForeignKey(ProductModel, related_name='products', on_delete=models.CASCADE, verbose_name='Товар')
+    cart = models.ForeignKey(CartModel, related_name='carts', on_delete=models.CASCADE, verbose_name='Кошик')
     quantity = models.IntegerField(verbose_name='Кількість')
     active = models.BooleanField(default=True, verbose_name='Активна')
 
@@ -35,7 +35,7 @@ class CartItemModel(models.Model):
 
 class OrderModel(models.Model):
     date_added = models.DateField(auto_now_add=True)
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, verbose_name='Клієнт')
+    user = models.ForeignKey(UserModel, related_name='users', on_delete=models.CASCADE, verbose_name='Клієнт')
     PROCESSING = 'в обр'
     CANCELLED = 'скас'
     APPROVED = 'оброб'
@@ -61,8 +61,8 @@ class OrderModel(models.Model):
 
 
 class OrderItemModel(models.Model):
-    order = models.ForeignKey(OrderModel, on_delete=models.CASCADE, verbose_name='Замовлення')
-    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, verbose_name='Товар')
+    order = models.ForeignKey(OrderModel, related_name='orders', on_delete=models.CASCADE, verbose_name='Замовлення')
+    product = models.ForeignKey(ProductModel, related_name='productsord',  on_delete=models.CASCADE, verbose_name='Товар')
     price = models.PositiveIntegerField(null=False, verbose_name='Ціна')
     quantity = models.PositiveIntegerField(null=False, verbose_name='Кількість')
 
@@ -73,7 +73,7 @@ class OrderItemModel(models.Model):
         return self.product
 
 class OrderReturnModel(models.Model):
-    order = models.ForeignKey(OrderModel, on_delete=models.CASCADE, verbose_name='Замовлення')
+    order = models.ForeignKey(OrderModel, related_name='ordersret', on_delete=models.CASCADE, verbose_name='Замовлення')
     date_added = models.DateField(auto_now_add=True)
     date_up = models.DateField(auto_now=True)
 

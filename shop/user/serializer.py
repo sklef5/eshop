@@ -1,18 +1,28 @@
 from rest_framework import serializers
+
+from cart.serializer import CartSerializer, OrderSerializer
 from user.models import UserModel
 
-class UserSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=15)
-    slug = serializers.SlugField(max_length=15)
-    age = serializers.IntegerField(required=False)
-    cash = serializers.IntegerField(default=10000)
-    first_name =serializers.CharField(max_length=50, required=False)
-    last_name =serializers.CharField(max_length=50)
-    email = serializers.EmailField(max_length=50, required=False)
-    password = serializers.CharField(write_only=True, style={'input_type': 'password'}, max_length=128)
+class UserSerializer(serializers.ModelSerializer):
+    clients = CartSerializer(many=True, read_only=True)
+    users = OrderSerializer(many=True, read_only=True)
+    class Meta:
+        fields = ['clients', 'users', 'password',  'username', 'slug',  'age', 'cash', 'first_name', 'last_name', 'email' ]
+        extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        return UserModel.objects.create(**validated_data)
+        user = UserModel(
+            email=validated_data['email'],
+            username=validated_data['username'],
+            slug=validated_data['slug'],
+            age=validated_data['age'],
+            cash=validated_data['cash'],
+            last_name=validated_data('last_name', '**'),
+            first_name=validated_data('first_name', '**')
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
     def update(self, instance, validated_data):
         instance.username = validated_data['username']

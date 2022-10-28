@@ -14,4 +14,5 @@ urlpatterns = [
     path('category_/add/', staff_user(views.CreateCatView.as_view()), name='category_add'),
     path('delete/<int:pk>/', staff_user(views.DeleteProdView.as_view()), name="product_del"),
     path('product_upp/<int:pk>/', staff_user(views.UpdateProdView.as_view()), name='product_update'),
+    path('api/category/<slug:slug>/', views.CategoryListApiView.as_view(), name='api-category'),
     ]

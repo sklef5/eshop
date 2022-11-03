@@ -18,7 +18,8 @@ urlpatterns = [
     path('returnrefus/<int:pk>/', orderstatusrefus, name='return_refusal'),
     path('error/', error, name='error'),
 
-    path('api/cart/', apiview.CartListApiView.as_view(), name='api_cart'),
+    path('api/cart/', apiview.CartCreatetApiView.as_view(), name='api_cart'),
+    path('api/cartlist/', apiview.CartListApiView.as_view(), name='api_cartlist'),
     path('api/cart/<int:pk>/', apiview.CartRUDApiView.as_view(), name='api_cart'),
     path('api/cartitem/', apiview.CartItemListApiView.as_view(), name='api_cartitem'),
     path('api/cartitem/<int:pk>/', apiview.CartItemRUDApiView.as_view(), name='api_cartitempk'),

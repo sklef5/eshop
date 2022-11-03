@@ -42,7 +42,7 @@ def cart_add(request, pk):
                       {'form': "Вибачте, на Вашому рахунку не достатньо коштів для цього замовлення"})
 
 #перегляд кошика
-def cart_view(request: HttpRequest, total=0, counter= 0) -> HttpResponse:
+def cart_view(request, total=0, counter= 0) -> HttpResponse:
     client = request.user.id
     bas_numb = CartModel.objects.filter(client_id=client)
     cartitems = CartItemModel.objects.filter(cart_id__client_id=client, active=True)
@@ -53,7 +53,7 @@ def cart_view(request: HttpRequest, total=0, counter= 0) -> HttpResponse:
     return render(request, "cart/cart.html", dict(form=cartitems, total=total, counter=counter, bas_numb=bas_numb))
 
 #створення замовлення
-def orderitemview(request: HttpRequest, pk):
+def orderitemview(request, pk):
     try:
         cart = CartModel.objects.get(id=pk)
     except CartModel.DoesNotExist:

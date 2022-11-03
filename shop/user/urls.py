@@ -16,6 +16,7 @@ urlpatterns = [
     path('user/all/', staff_user(views.UserlListView.as_view()), name='user_list'),
     path('user/<slug:slug>/', staff_user(views.UserUpdateView.as_view()), name='update_user_prof'),
 
-    path('api/user/', apiview.UserListApiView.as_view(), name='api_user'),
+    path('api/user/', apiview.UserCreateApiView.as_view(), name='api_user'),
+    path('api/userlist/', apiview.UserListApiView.as_view(), name='api_userlist'),
     path('api/user/<int:pk>/', apiview.UserRUDApiView.as_view(), name='api_userpk'),
     ]
